@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -53,7 +54,7 @@ public class Menu extends JFrame implements ActionListener
 		pCENTER.setLayout(new BoxLayout(pCENTER, BoxLayout.Y_AXIS));
 		Dimension minSize2 = new Dimension(0, 50);
 		Dimension prefSize2 = new Dimension(200, 70);
-		Dimension maxSize2 = new Dimension(Short.MAX_VALUE, 2000);
+		Dimension maxSize2 = new Dimension(Short.MAX_VALUE, 1000);
 
 		pCENTER.add(new Box.Filler(minSize2, prefSize2, maxSize2));
 		Panel pGRA = new Panel();
