@@ -69,7 +69,7 @@ public class Gra extends JFrame implements ActionListener
 		if(zrodlo == cofnij)
 		{
 			dispose();
-		}//
+		}
 	}
 
 	
