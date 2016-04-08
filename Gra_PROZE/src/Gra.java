@@ -1,8 +1,12 @@
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,28 +33,34 @@ public class Gra extends JFrame implements ActionListener
 	{
 		setSize(900,600);	 
 		setTitle("Gra");
-		this.setLayout(new GridLayout(6,1));
-		
 		grupa.add(niski);
 		grupa.add(sredni);
 		grupa.add(wysoki);
-		this.add(niski);
-		this.add(sredni);
-		this.add(wysoki);
+		Panel pGRUPA = new Panel();
+		pGRUPA.add(poziomNapis);
+		pGRUPA.add(niski);
+		pGRUPA.add(sredni);
+		pGRUPA.add(wysoki);
+
 		
-		this.add(cofnij);
+		Panel pCENTER = new Panel();
+		pCENTER.setLayout(new BoxLayout(pCENTER, BoxLayout.LINE_AXIS));
+		pCENTER.add(nickNapis);
+		pCENTER.add(nick);
 		
-		this.add(nickNapis);
-		this.add(nick);
+		Panel pSOUTH = new Panel();
+		pSOUTH.add(cofnij);
+		pSOUTH.add(graj);
 		
-		this.add(poziomNapis);
-		
-		this.add(cofnij);
-		this.add(graj);
-		
+		this.setLayout(new BorderLayout());
+		this.add(pCENTER, BorderLayout.CENTER);
+		this.add(pGRUPA, BorderLayout.NORTH);
+		this.add(pSOUTH, BorderLayout.SOUTH);
+		this.pack();
 		this.setVisible(true);
 		
-		
+		graj.addActionListener(this);
+		cofnij.addActionListener(this);
 	}
 	
 	private static Gra gra = new Gra();
@@ -68,7 +78,7 @@ public class Gra extends JFrame implements ActionListener
 		
 		if(zrodlo == cofnij)
 		{
-			dispose();
+			gra.dispose();
 		}
 	}
 
