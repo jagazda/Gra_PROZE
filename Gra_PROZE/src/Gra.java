@@ -30,8 +30,7 @@ public class Gra extends JFrame implements ActionListener
 	JRadioButton wysoki = new JRadioButton("Wysoki");
 	
 	private Gra()
-	{
-		setSize(900,600);	 
+	{ 
 		setTitle("Gra");
 		grupa.add(niski);
 		grupa.add(sredni);
@@ -69,7 +68,7 @@ public class Gra extends JFrame implements ActionListener
 		return gra;
 	}
 	
-	
+	// Coœ tam
 
 	@Override
 	public void actionPerformed(ActionEvent e)
