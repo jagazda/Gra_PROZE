@@ -58,7 +58,7 @@ public class Gra extends JFrame implements ActionListener
 		this.pack();
 		this.setVisible(true);
 		
-		graj.addActionListener(this);//Cos tu
+		graj.addActionListener(this);
 		cofnij.addActionListener(this);
 	}
 	
@@ -68,7 +68,7 @@ public class Gra extends JFrame implements ActionListener
 		return gra;
 	}
 	
-
+//cso
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
