@@ -119,7 +119,7 @@ public class Parser
 		
 	public static void main(String[] args)
 	{
-		Parser parser = new Parser();
+		//Parser parser = new Parser();
 		//System.out.println( Arrays.toString(lista5));
 
 
