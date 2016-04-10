@@ -1,0 +1,10 @@
+imieNapis noname
+zycie 100
+punkty 0
+atakObszarowy 0
+atakCzasowy 0
+poziom 1
+iloscPrzeciwnikow 8
+rozmiarOkna 900x600
+polozenieGrupy 0x0
+polozenieGracza 0x0
