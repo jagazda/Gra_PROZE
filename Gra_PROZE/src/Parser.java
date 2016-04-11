@@ -18,13 +18,13 @@ import javax.imageio.ImageIO;
 public class Parser
 {
 	
-	public static BufferedImage obcy,gracz;
+	public static BufferedImage obcy, gracz;
 	ArrayList<String> lista1 = new ArrayList<String>(); 
 	ArrayList<String> lista2 = new ArrayList<String>(); 
-	ArrayList<String> lista3 = new ArrayList<String>();
+    ArrayList<String> lista3 = new ArrayList<String>();
 	ArrayList<String> lista4 = new ArrayList<String>();
-	static int [] lista5 = new int[12];
-	
+	static int [] lista5 = new int[36];
+	static String [] lista6 = new String[1];
 	
 	Parser()
 	{		
@@ -66,8 +66,10 @@ public class Parser
 				while(odczyt.hasNextLine())
 				{
 					token = new StringTokenizer(odczyt.nextLine(), " ");
+
 					while(token.hasMoreElements())
 					{
+						//System.out.print("Token = " + token.nextToken());
 						lista1.add(token.nextToken());
 					}
 				}
@@ -76,6 +78,9 @@ public class Parser
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			//System.out.print(lista1.toString());
+
 						
 			for(int i = 0; i < lista1.size(); i++)
 			{
@@ -87,14 +92,15 @@ public class Parser
 				}
 			}			
 
-			for(int i = 0; i < lista2.size() - 3; i++)
+			for(int i = 0; i < lista2.size() - 15; i++)
 			{
 				lista3.add(lista2.get(i));
 			}
 						
+			//System.out.println(lista2.toString());
 			StringTokenizer token2;
 
-			for(int i = lista2.size() - 3; i < lista2.size(); i++)
+			for(int i = lista2.size() - 15; i < lista2.size(); i++)
 			{
 				token2 = new StringTokenizer(lista2.get(i), "x");
 				while(token2.hasMoreElements())
@@ -103,25 +109,28 @@ public class Parser
 				}
 			}
 			
+			//System.out.println(lista4.size());
 			for(int i = 1; i <  lista3.size(); i++ )
 			{
 				lista5[i - 1] =	Integer.parseInt(lista3.get(i));
 			}
 			
-			for(int i = 0; i <  lista4.size(); i++ )
+			for(int i = 0; i < lista4.size(); i++ )
 			{
-				lista5[i+6] =	Integer.parseInt(lista4.get(i));
+				lista5[i+6] = Integer.parseInt(lista4.get(i));
 			}
+			
+			//System.out.println(lista3.toString());
+			//System.out.println(lista2.toString());
+			lista6[0] = lista3.get(0);
 			
 	}
 		
-
 		
 	public static void main(String[] args)
 	{
-		//Parser parser = new Parser();
-		//System.out.println( Arrays.toString(lista5));
-
+		  Parser parser = new Parser();
+		  //System.out.println(lista2.toString());
 
 	}
 
