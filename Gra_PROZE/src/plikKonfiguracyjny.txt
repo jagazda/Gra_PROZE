@@ -1,10 +1,24 @@
 imieNapis noname
-zycie 100
-punkty 0
+numerPoziom 1
 atakObszarowy 0
 atakCzasowy 0
-poziom 1
+zycie 100
+punkty 0
 iloscPrzeciwnikow 8
-rozmiarOkna 900x600
-polozenieGrupy 0x0
-polozenieGracza 0x0
+rozmiarOknaGra 900x500
+polozenieGracza 450x550
+polozenieGrupy 300x250
+imieNapisPolozenie 750x60
+numerPoziomuNapisPolozenie 750x140
+atakObszarowyNapisPolozenie 750x220
+atakCzasemNapisPolozenie 750x300
+zyciaNapisPolozenie 750x380
+punktyNapisPolozenie 750x460
+imiePolozenie 750x60
+numerPoziomuPolozenie 750x140
+atakObszarowyPolozenie 750x220
+atakCzasemPolozenie 750x300
+zyciaPolozenie 750x380
+punktyPolozenie 750x460
+
+
