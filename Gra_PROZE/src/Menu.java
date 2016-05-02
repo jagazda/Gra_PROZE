@@ -93,8 +93,6 @@ public class Menu extends JFrame implements ActionListener
 		if(zrodlo == gra)
 		{
 			Gra.getInstance();
-
-
 		}
 		
 		else if(zrodlo == statystyki)
