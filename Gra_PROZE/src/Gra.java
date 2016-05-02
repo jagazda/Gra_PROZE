@@ -30,7 +30,7 @@ public class Gra extends JFrame implements ActionListener
 	JRadioButton wysoki = new JRadioButton("Wysoki");
 	
 	private Gra()
-	{ 
+	{
 		setTitle("Gra");
 		grupa.add(niski);
 		grupa.add(sredni);
@@ -58,13 +58,15 @@ public class Gra extends JFrame implements ActionListener
 		this.pack();
 		this.setVisible(true);
 		
-		graj.addActionListener(this);//Cos tu
+		graj.addActionListener(this);
+		graj.addActionListener(this);
 		cofnij.addActionListener(this);
 	}
 	
 	private static Gra gra = new Gra();
 	public static Gra getInstance()
 	{
+		gra.setVisible(true);
 		return gra;
 	}
 	
@@ -76,7 +78,8 @@ public class Gra extends JFrame implements ActionListener
 		
 		if(zrodlo == cofnij)
 		{
-			gra.dispose();
+			//gra.dispose();
+			setVisible(false);
 		}
 	}
 
