@@ -1,0 +1,59 @@
+
+public class InvaderGroup
+{
+	Integer x, y;
+	Invader[][] grupa = new Invader[6][3];
+			
+	InvaderGroup(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+		
+		for(int i = 0; i < 6; i++)
+		{
+			for(int j = 0; j < 3; j++)
+			{
+				//invaders.add(new Invader(x + i*60, y + j*60));
+				grupa[i][j] = new Invader(x + i*60, y + j*60);
+			}
+		}
+	}
+	
+	void przesun (int xx, int yy)
+	{
+		for(int i = 0; i < 6; i++)
+		{
+			for(int j = 0; j < 3; j++)
+			{	
+				this.x = xx;
+				this.y = yy;
+
+				if(grupa[i][j].widoczny == true)
+				{
+				grupa[i][j].x = xx + i*60;
+				grupa[i][j].y = yy + j*60;
+				}
+			}
+		}
+	}
+	
+	void usun (int i, int j)
+	{
+		
+	}
+	
+	
+	
+	/*private static Invader invader = new Invader();
+	public static Invader getInstance()
+	{
+		return invader;
+	}*/
+
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}
