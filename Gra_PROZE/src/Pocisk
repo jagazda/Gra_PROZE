@@ -1,0 +1,26 @@
+
+public class Pocisk
+{
+	
+	Integer x, y, dy = 5;
+	boolean widoczna;
+	
+	Pocisk(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+		widoczna = true;
+	}
+	
+	void isVisible(boolean b)
+	{
+		widoczna = b;
+	}
+
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}
