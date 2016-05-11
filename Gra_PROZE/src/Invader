@@ -1,0 +1,28 @@
+
+public class Invader
+{
+	Integer x, y, zycie;
+	boolean widoczny;
+	
+	void isVisible(boolean b)
+	{
+		widoczny = b;
+	}
+	
+	public Invader(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+		widoczny = true;	
+		zycie = 2;
+
+	}
+	
+	
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}
