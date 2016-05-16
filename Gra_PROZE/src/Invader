@@ -1,7 +1,7 @@
 
 public class Invader
 {
-	Integer x, y, zycie;
+	Integer x, y, zycie, rzad, kolumna;
 	boolean widoczny;
 	
 	void isVisible(boolean b)
@@ -9,13 +9,16 @@ public class Invader
 		widoczny = b;
 	}
 	
+	public Invader(){}
+	
 	public Invader(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
 		widoczny = true;	
 		zycie = 2;
-
+		kolumna = 0;
+		rzad = 0;
 	}
 	
 	
