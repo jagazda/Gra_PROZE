@@ -13,7 +13,6 @@ public class InvaderGroup
 		{
 			for(int j = 0; j < 3; j++)
 			{
-				//invaders.add(new Invader(x + i*60, y + j*60));
 				grupa[i][j] = new Invader(x + i*60, y + j*60);
 			}
 		}
@@ -30,8 +29,8 @@ public class InvaderGroup
 
 				if(grupa[i][j].widoczny == true)
 				{
-				grupa[i][j].x = xx + i*60;
-				grupa[i][j].y = yy + j*60;
+					grupa[i][j].x = xx + i*60;
+					grupa[i][j].y = yy + j*60;
 				}
 			}
 		}
