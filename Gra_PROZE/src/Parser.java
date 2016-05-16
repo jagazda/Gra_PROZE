@@ -1,31 +1,30 @@
+import java.applet.Applet;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.net.URL;
 import java.util.Properties;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
 
-public class Parser
+public class Parser extends Applet
 {
-	
-	public static BufferedImage obcy, gracz, pocisk;
+	//Icon obcy;
+	public static BufferedImage  obcy, obcy2, gracz, pocisk, pocisk2, przeszkoda0, przeszkoda1, przeszkoda2;
+	//Image obcy;
 	File f = new File("conf.properties");
     Properties properties = new Properties();
 
+    /*public void init(){};   
+    public void paint(Graphics g){};*/
+    
     public void load()
     {
         InputStream is;
@@ -70,32 +69,22 @@ public class Parser
 	{		
 			try
 			{
-				obcy  = ImageIO.read(new File("Sources/space-invaders-md.png"));
-				gracz = ImageIO.read(new File("Sources/ship_up.png"));
-				pocisk = ImageIO.read(new File("Sources/bullet1.png"));
+				//obcy  = getImage(new URL(getDocumentBase(), "C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\invader.gif"));
+				obcy = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\invader.gif"));
+				obcy2 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\space-invaders-md.png"));
+				gracz = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\ship_up.png"));
+				pocisk = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\bullet1.png"));
+				pocisk2 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\kolo.png"));
+				przeszkoda0 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\przeszkoda0.png"));
+				przeszkoda1 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\przeszkoda1.png"));
+				przeszkoda2 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\przeszkoda2.png"));
+
 			}
 			
 			catch(Exception e)
 			{
 				e.printStackTrace();
-			}
-			
-			/*try{
-				  FileInputStream fstream = new FileInputStream("plikKonfiguracyjny.txt");
-				  DataInputStream in = new DataInputStream(fstream);
-				  BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				  String strLine;
-				 
-				  while ((strLine = br.readLine()) != null)   {
-				     
-					  String[] splitted = strLine.split(" "); 
-					  System.out.println(splitted.toString());
-				  }
-				  
-				  in.close();
-				    }catch (Exception e){//Catch exception if any
-				  System.err.println("Error: " + e.getMessage());
-				  }*/		
+			}	
 	}
 	
 	private static Parser parser = new Parser();
@@ -107,11 +96,7 @@ public class Parser
 		
 	public static void main(String[] args)
 	{
-		  //Parser parser = new Parser();
-		  //parser.load();
-		  //parser.saveProperties("zycie", "100");
-		  //parser.saveProperties("atak", "25");
-		  //System.out.println(parser.properties.getProperty("yPolozenieGrupy"));
+		  
 	}
 
 }
