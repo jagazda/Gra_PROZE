@@ -2,7 +2,7 @@
 public class Pocisk
 {
 	
-	Integer x, y, dy = 5;
+	Integer x, y, dx = 5, dy = 5;
 	boolean widoczna;
 	
 	Pocisk(int x, int y)
