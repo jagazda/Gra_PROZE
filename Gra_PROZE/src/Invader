@@ -1,27 +1,45 @@
-
+/*
+ * klasa implementujaca obcego
+ */
 public class Invader
 {
-	Integer x, y, zycie, rzad, kolumna;
+	/*
+	 * wspolrzedne obcego,jego zycie, miejsce w grupie
+	 */
+	Integer x, y, zycie;
+	/*
+	 * widocznosc
+	 */
 	boolean widoczny;
-	
+	/*
+	 * metoda zmieniajaca widocznosc obcego
+	 * @param b widocznosc
+	 */
 	void isVisible(boolean b)
 	{
 		widoczny = b;
 	}
-	
+	/*
+	 * konstruktor bezparametrowy
+	 */
 	public Invader(){}
-	
+	/*
+	 * konstruktor obcego
+	 * @param x wspolrzedna x obcego
+	 * @param y wspolrzedna y obcego
+	 */
 	public Invader(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
 		widoczny = true;	
 		zycie = 2;
-		kolumna = 0;
-		rzad = 0;
 	}
 	
-	
+	/*
+	 * pust funckja main
+	 * @param args nie uzywane
+	 */
 	public static void main(String[] args)
 	{
 		// TODO Auto-generated method stub
