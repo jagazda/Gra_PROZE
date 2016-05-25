@@ -1,22 +1,39 @@
-
+/*
+ * klasa implementujca pocisk
+ */
 public class Pocisk
 {
-	
+	/*
+	 * wspolrzedne pocisku oraz przemieszczanie sie pocisku
+	 */
 	Integer x, y, dx = 5, dy = 5;
+	/*
+	 * widocznosc
+	 */
 	boolean widoczna;
-	
+	/*
+	 * konstruktor pocisku
+	 * @param x wspolrzedna x pocisku
+	 * @param y wspolrzedna y pocisku
+	 */
 	Pocisk(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
 		widoczna = true;
 	}
-	
+	/*
+	 * metoda zmieniajaca widocznosc pocisku
+	 * @param b widocznosc obiektu
+	 */
 	void isVisible(boolean b)
 	{
 		widoczna = b;
 	}
-
+/*
+ * pusta funkcja main
+ * @param args nie uzywane
+ */
 	public static void main(String[] args)
 	{
 		// TODO Auto-generated method stub
