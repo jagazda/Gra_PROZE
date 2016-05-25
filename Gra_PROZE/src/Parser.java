@@ -1,3 +1,6 @@
+/*
+ * klasa zawierajaca implementacje odczytywania wartosci z pliku konfiguracyjnego
+ */
 import java.applet.Applet;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,14 +20,25 @@ import javax.imageio.ImageIO;
 public class Parser extends Applet
 {
 	//Icon obcy;
-	public static BufferedImage  obcy, obcy2, gracz, pocisk, pocisk2, przeszkoda0, przeszkoda1, przeszkoda2;
+	/*
+	 * obrazy gracza, obcego, przeszkody
+	 */
+	public static BufferedImage  obcy, obcy2, gracz, pocisk, pocisk2, przeszkoda0, przeszkoda1, przeszkoda2, atakCzasowy, atakObszarowy;
 	//Image obcy;
+	/*
+	 * obiekt zawierajacy plik konfiguracyjny
+	 */
 	File f = new File("conf.properties");
+	/*
+	 * obiekt klasy properties
+	 */
     Properties properties = new Properties();
 
     /*public void init(){};   
     public void paint(Graphics g){};*/
-    
+    /*
+     * metoda wczytujaca wartosci z pliku konfiguracyjnego
+     */
     public void load()
     {
         InputStream is;
@@ -42,7 +56,9 @@ public class Parser extends Applet
                 e.printStackTrace();
         }
     }
-    
+    /*
+     * metoda zapisujaca pobrane wartosci
+     */
     public void saveProperties(String key, String value)
     {
         OutputStream os;
@@ -64,12 +80,13 @@ public class Parser extends Applet
                 e.printStackTrace();
         }
 }
-    
-	private Parser()
+    /*
+     * konstruktor klasy parser
+     */
+    Parser()
 	{		
 			try
 			{
-				//obcy  = getImage(new URL(getDocumentBase(), "C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\invader.gif"));
 				obcy = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\invader.gif"));
 				obcy2 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\space-invaders-md.png"));
 				gracz = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\ship_up.png"));
@@ -78,6 +95,8 @@ public class Parser extends Applet
 				przeszkoda0 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\przeszkoda0.png"));
 				przeszkoda1 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\przeszkoda1.png"));
 				przeszkoda2 = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\przeszkoda2.png"));
+				atakCzasowy = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\atakCzasowy.jpg"));
+				atakObszarowy = ImageIO.read(new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\Sources\\atakObszarowy.jpg"));
 
 			}
 			
@@ -87,13 +106,10 @@ public class Parser extends Applet
 			}	
 	}
 	
-	private static Parser parser = new Parser();
-	public static Parser getInstance()
-	{
-		return parser;
-	}
-		
-		
+	/*
+	 * pusta metoda main
+	 * @param args nie uzywane	
+	 */
 	public static void main(String[] args)
 	{
 		  
