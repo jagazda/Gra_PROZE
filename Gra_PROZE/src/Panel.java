@@ -2,7 +2,9 @@
 //Strzal glowny SPACJA
 // Atak obszarowy F 
 //Do zniszczenia celu potrzeba dwoch zderzen 
-
+/*
+ * Klasa z implementacja ekranu gry
+ */
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -21,68 +23,117 @@ import javax.swing.Timer;
 
 public class Panel extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 2L;
-	Parser parser = Parser.getInstance();
+	
+	Gracz gracz = Gracz.getInstance();
+	/*
+	 * nowy obiekt klasy Parser
+	 */
+	Parser parser = new Parser();
+	/*
+	 * timer
+	 */
 	Timer t = new Timer(20, this);
-	Integer dx = 2, dy = -10, x2, y2, dx2 = 10; // x , y,
+	/*
+	 * wspolrzedne i przesuniecia gracza
+	 */
+	/*
+	 * nowy obiekt z lista pociskow
+	 */
 	ArrayList<Pocisk> lista = new ArrayList<Pocisk>();
+	/*
+	 * nowy obiek z lista pociskow obcych
+	 */
 	ArrayList<Pocisk> pociskiObcych = new ArrayList<Pocisk>();
+	/*
+	 * nowy obiekt z lista lista pociskow obszarowych
+	 */
 	ArrayList<ArrayList<Pocisk>> atakObszarowyLista = new ArrayList<ArrayList<Pocisk>>();
+	
+	ArrayList<Pocisk> pociskiBossa = new ArrayList<Pocisk>();
+	/*
+	 * nowy obiekt z lista przeszkod
+	 */
 	ArrayList<Przeszkoda> przeszkody = new ArrayList<Przeszkoda>();
+	/*
+	 * grupa obcych
+	 */
 	InvaderGroup ig;
-	Integer punkty;
-	boolean b, isAlive;
-	int atakObcych;
+	/*
+	 * funkcja rondom
+	 */
 	Random random = new Random();
-	Gracz gracz = new Gracz();
+	/*
+	 * obiekt gracza
+	 */
+	//Gracz Gracz = new Gracz();
 	
 	BufferedImage[] grafikaObcego = {Parser.obcy, Parser.obcy2};
+	/*
+	 * ilosc animacji
+	 */
 	int klatkaAnimacji;
-	
+	/*
+	 * ilosc cykli
+	 */
 	long cykl;
+	
+	Bonusy zamrozenie = new Bonusy();
+	Bonusy tarcza = new Bonusy();
 
-	// Konstruktor
+		
+	Boss boss = new Boss();
+
+	/*
+	 * Konstuktor klasy Praser
+	 */
 	public Panel() {
+		/*
+		 * obiekt z wspolrzednymi grupy obcych
+		 */
+		
 		parser.load();
-		Integer x = Integer.parseInt(parser.properties.getProperty("xPolozenieGrupy"));
-		Integer y = Integer.parseInt(parser.properties.getProperty("yPolozenieGrupy"));
-		x2 = Integer.parseInt(parser.properties.getProperty("xPolozenieGracza"));
-		y2 = Integer.parseInt(parser.properties.getProperty("yPolozenieGracza"));
-		ig = new InvaderGroup(x, y);
-		punkty = 0;
-		atakObcych = 0;
-		b = false;
+		ig = new InvaderGroup();
 		cykl = 0;
 		klatkaAnimacji = 0;
-		isAlive = true;
-		
+		/*
+		 * dodanie przeszkod
+		 */
 		 przeszkody.add(new Przeszkoda(40, 500));
 		 przeszkody.add(new Przeszkoda(325, 500));
 		 przeszkody.add(new Przeszkoda(575, 500));
+		 tarcza.x = random.nextInt(750 - Parser.atakObszarowy.getWidth());
 
 		this.setVisible(true);
 		this.addKeyListener(this);
 		this.setFocusable(true);
-		this.requestFocusInWindow();
-		//t.start();
-		
+		this.requestFocusInWindow();		
 	}
-	
+	/*
+	 * metoda startujaca timer
+	 */
 	public void start() {
 		if (!t.isRunning()) {
 			t.start();
 		}
 	}
-	
+	/*
+	 * metoda zatrzymujaca timer
+	 */
 	public void stop() {
 		t.stop();
 	}
-
+/*
+ * metoda rysujaca obraz
+ * (non-Javadoc)
+ * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+ */
 	public void paintComponent(Graphics g) {
 		// BufferStrategy bs = new getBufferStrategy();
 		// Graphics2D g = (Graphics2D) k;
+
 		super.paintComponent(g);
 		g.setColor(Color.black);
-		g.drawImage(Parser.gracz, x2, y2, this);
+		g.drawImage(Parser.gracz, gracz.x, gracz.y, this);
 
 		// Rysowanie obcych
 		for (int i = 0; i < 6; i++) {
@@ -125,6 +176,28 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			g.drawImage(Parser.przeszkoda2, przeszkody.get(i).x, przeszkody.get(i).y, this);
 				
 		} 
+		
+		//Rysowanie bossa
+	    if(boss.isVisible)
+		{
+			boss.przesuniecie();
+			boss.paintComponent(g);
+		}
+	    
+	    //Rysowanie pociskow bossa
+	    if(boss.isVisible)
+	    {
+	    	for(int i = 0; i < pociskiBossa.size(); i++)
+	    	{
+		    	g.drawImage(Parser.pocisk2, pociskiBossa.get(i).x, pociskiBossa.get(i).y , this);
+	    	}
+	    }
+	    
+	    //Rysowanie bonusu ataku obszarowego
+	    if(tarcza.isVisible)
+	    {
+	    	g.drawImage(Parser.atakObszarowy, tarcza.x ,Integer.parseInt(parser.properties.getProperty("yPolozenieGracza")), this);
+	    }
 
 
 		g.drawLine(750, 0, 750, 650);
@@ -143,12 +216,14 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.drawString("A", 750, 80);
 		g.drawString("B", 750, 160);
-		g.drawString("C", 750, 240);
+		g.drawString(Integer.toString(tarcza.ilosc), 750, 240);
 		g.drawString("D", 750, 320);
 		g.drawString(Integer.toString(gracz.zycia), 750, 400);
-		g.drawString(Integer.toString(punkty), 750, 480);
+		g.drawString(Integer.toString(gracz.punkty), 750, 480);
 	}
-
+/*
+ * metoda wykrywajaca kolizje
+ */
 	void kolizja() {
 		// Sprawdzanie kolizji obiektu z grup z pociskiem
 		for (int i = 0; i < 6; i++) {
@@ -170,10 +245,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		
 		//Wykrycie kolizji z graczem
 		for (int i = 0; i < pociskiObcych.size(); i++) {
-			if (x2 > pociskiObcych.get(i).x + Parser.pocisk2.getWidth()
-			|| x2 + Parser.gracz.getWidth() < pociskiObcych.get(i).x
-			|| y2 > pociskiObcych.get(i).y + Parser.pocisk2.getHeight()
-			|| y2 + Parser.gracz.getHeight() <pociskiObcych.get(i).y) {
+			if (gracz.x > pociskiObcych.get(i).x + Parser.pocisk2.getWidth()
+			|| gracz.x + Parser.gracz.getWidth() < pociskiObcych.get(i).x
+			|| gracz.y > pociskiObcych.get(i).y + Parser.pocisk2.getHeight()
+			|| gracz.y + Parser.gracz.getHeight() <pociskiObcych.get(i).y) {
 				repaint();
 
 			}
@@ -199,9 +274,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 								|| ig.grupa[i][j].y + Parser.obcy2.getHeight() < atakObszarowyLista.get(m).get(n).y)
 							repaint();
 						else {
-							ig.grupa[i][j].zycie--;
+							/*ig.grupa[i][j].zycie--;
 							atakObszarowyLista.get(m).remove(n);
-							atakObszarowyLista.get(m).add(n, null);
+							atakObszarowyLista.get(m).add(n, null);*/
+							ig.grupa[i][j].zycie = 0;
 							repaint();
 						}
 
@@ -215,7 +291,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		{
 			for(int j = 0; j < lista.size() ; j++)
 			{
-				if(przeszkody.get(i).x > lista.get(j).x + Parser.pocisk.getWidth() || przeszkody.get(i).x + Parser.przeszkoda0.getWidth() < lista.get(j).x || przeszkody.get(i).y > lista.get(j).y + Parser.pocisk.getHeight() || przeszkody.get(i).y + Parser.przeszkoda0.getHeight() < lista.get(j).y)
+				if(przeszkody.get(i).x > lista.get(j).x + Parser.pocisk.getWidth() || przeszkody.get(i).x + Parser.przeszkoda0.getWidth() < lista.get(j).x
+						|| przeszkody.get(i).y > lista.get(j).y + Parser.pocisk.getHeight() || przeszkody.get(i).y + Parser.przeszkoda0.getHeight() < lista.get(j).y)
 				{
 					repaint();
 				}
@@ -226,9 +303,98 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 				}
 			} 
 		}
+		
+		
+		
+		//Wykrywanie kolizji pocisku z bossem
+		if(boss.isVisible){
+		for(int i = 0; i < lista.size(); i++)
+		{
+			if(boss.x > lista.get(i).x + Parser.pocisk.getWidth() || boss.x + Parser.obcy2.getWidth() < lista.get(i).x || boss.y > lista.get(i).y + Parser.pocisk.getHeight() 
+			|| boss.y + Parser.obcy2.getHeight() < lista.get(i).y)
+			{
+				repaint();
+			}
+			else
+			{
+				lista.remove(i);
+				boss.zycie -- ;
+			}
+		}
 	}
-
-	// Sprawdza czy zycie obiektu = 0 i nalicza punkty
+		
+		//Wykrywanie kolizji pociskow z ataku obszarowego z bossem 
+		if(boss.isVisible)
+		{
+			for(int i =0; i < atakObszarowyLista.size(); i++)
+			{
+				for(int j = 0; j < atakObszarowyLista.get(i).size(); j++)
+				{
+					if (atakObszarowyLista.get(i).get(j) == null) {
+						continue;
+					}
+					if (boss.x > atakObszarowyLista.get(i).get(j).x + Parser.pocisk2.getWidth()
+							|| boss.x + Parser.obcy2.getWidth() < atakObszarowyLista.get(i).get(j).x
+							|| boss.y > atakObszarowyLista.get(i).get(j).y + Parser.pocisk.getHeight()
+							|| boss.y + Parser.obcy2.getHeight() < atakObszarowyLista.get(i).get(j).y)
+						repaint();
+					else {
+						boss.zycie --;
+						atakObszarowyLista.get(i).remove(j);
+						atakObszarowyLista.get(i).add(j, null);
+						repaint();
+					}
+				}
+					
+			}
+		}
+		
+		
+	//Wykrywanie kolizji ataku bossa z przeszkodami i ewentuale usuwanie obiektow
+	if(boss.isVisible)
+	{
+		for(int i = 0; i < przeszkody.size(); i++ )
+		{
+			for(int j = 0; j < pociskiBossa.size() ; j++)
+			{
+				if(przeszkody.get(i).x > pociskiBossa.get(j).x + Parser.pocisk2.getWidth() || przeszkody.get(i).x + Parser.przeszkoda0.getWidth() < pociskiBossa.get(j).x
+						|| przeszkody.get(i).y > pociskiBossa.get(j).y + Parser.pocisk2.getHeight() || przeszkody.get(i).y + Parser.przeszkoda0.getHeight() < pociskiBossa.get(j).y)
+				{
+					repaint();
+				}
+				else
+				{	
+					pociskiBossa.remove(j);
+					przeszkody.get(i).zycie -- ;
+					repaint();
+				}
+			} 
+		}
+	}
+	
+	//Wykrywanie kolizji pociskow bossa z graczem
+	if(boss.isVisible)
+	{
+		for(int i = 0; i < pociskiBossa.size(); i++ )
+		{
+				if(gracz.x > pociskiBossa.get(i).x + Parser.pocisk2.getWidth() || gracz.x + Parser.gracz.getWidth() < pociskiBossa.get(i).x
+						||gracz.y > pociskiBossa.get(i).y + Parser.pocisk2.getHeight() || gracz.y + Parser.gracz.getHeight() < pociskiBossa.get(i).y)
+				{
+					repaint();
+				}
+				else
+				{	
+					pociskiBossa.remove(i);
+					gracz.zycia -- ;
+					repaint();
+				}
+		}
+	}
+		
+	}
+/*
+ * metoda sprawdzajaca czy zycie obiektu = 0 i nalicza punkty
+ */
 	void zniszcz() 
 	{
 		for (int i = 0; i < 6; i++) {
@@ -238,7 +404,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 					ig.grupa[i][j].x = 0;
 					ig.grupa[i][j].y = 0;
 					ig.grupa[i][j].zycie--;
-					punkty += 100;
+					gracz.punkty += 100;
 				}
 			}
 		}
@@ -294,30 +460,43 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 				{
 					pociskiObcych.remove(i);
 					przeszkody.get(j).zycie--;
+					repaint();
 				}
 			}
 		}
 		
-		//Sprawdzanie stanu zycia gracza
-				
+		//Sprawdzanie stanu zycia bossa
+		if(boss.zycie == 0)
+		{
+			boss.isVisible = false;
+			boss.zycie --;
+			gracz.punkty += 600;
+		}
+		
+		//Sprawdzanie stanu zycia gracza	
 		if(gracz.zycia == 0)
 		{
-			isAlive = false;
+			gracz.alive = false;
 		}
+		
 				
 	}
 		
 		
-	
+	/*
+	 * metoda obslugujaca zdarzenia 
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
 		// Przesuniecie grupy przeciwnikow
 		if (ig.x < 0 || ig.x > 750 - ig.x) {
-			dx = -dx;
-			ig.przesun(ig.x, ig.y - dy);
+			ig.dx = -ig.dx;
+			ig.przesun(ig.x, ig.y - ig.dy);
 		}
-		ig.przesun(ig.x + dx, ig.y);
+		ig.przesun(ig.x + ig.dx, ig.y);
 
 		// Przesuniecie pociskow
 		for (int j = 0; j < lista.size(); j++) {
@@ -376,9 +555,15 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 		}
 		
-		// Atak obcych.
-		atakObcych = (atakObcych + 1) % 35;
-		if (atakObcych == 0) {
+		//Przesuniecie pociskow Bossa
+		for(int i = 0; i < pociskiBossa.size(); i++)
+		{
+			pociskiBossa.get(i).y += pociskiBossa.get(i).dy;
+		}
+		
+		//Atak obcych.
+		ig.atakObcych = (ig.atakObcych + 1) % 35;
+		if (ig.atakObcych == 0) {
 			int rx = random.nextInt(6);
 			int ry = random.nextInt(3);
 			if (ig.grupa[rx][ry].widoczny) {
@@ -386,9 +571,55 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 		
+		//Atak bossa
+		boss.czasBossa = (boss.czasBossa + 1) % 25;
+		if(boss.czasBossa == 0)
+		{
+			if(boss.isVisible)
+			{
+				pociskiBossa.add(new Pocisk(boss.x, boss.y));
+			}
+		}
+		
 		//Przelaczanie klatek animacji
 		if (cykl % 30 == 0) {
 			klatkaAnimacji = 1 - klatkaAnimacji;
+		}
+		
+		//Sprawdzanie warunku na bossa
+		if(gracz.punkty == 700)
+		{
+			boss.isVisible = true;
+		}
+		
+		//Generowanie bonusu ataku obszarowego
+		if(gracz.punkty == 800)
+		{
+			tarcza.isVisible = true;
+		}
+		
+		tarcza.czasWidocznosci = (tarcza.czasWidocznosci + 1) % 500;
+		
+		//Sprawdzanie czasu zycia bonusu ataku obszarowego
+		if(tarcza.isVisible)
+		{
+			if(tarcza.czasWidocznosci == 0)
+			tarcza.isVisible = false;
+		}
+		
+		//Sprawdzenie czy bonus ataku obszarowego został zebrany 
+		if(tarcza.isVisible)
+		{
+		if(gracz.x > tarcza.x + Parser.atakObszarowy.getWidth() || gracz.x + Parser.gracz.getWidth() < tarcza.x)
+		{
+			repaint();
+		}
+		else
+		{
+			tarcza.isVisible = false;
+			tarcza.ilosc ++;
+		}
+		
 		}
 
 		kolizja();
@@ -399,32 +630,36 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		t.start();
 	}
 
-	
+	/*
+	 * metoda obslugujaca zdarzenia wcisniecia klawiszy
+	 * (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// this.setFocusable(true);
 
 		if (e.getKeyCode() == KeyEvent.VK_D) // &(x2 > 0 & x2 < 750)
 		{
-			if(x2 + Parser.gracz.getWidth() < 750)
-			x2 = x2 + dx2;
+			if(gracz.x + Parser.gracz.getWidth() < 750)
+			gracz.x += gracz.dx;
 		}
 		
 		if (e.getKeyCode() == KeyEvent.VK_A) {
-			if(x2 > 0)
-			x2 = x2 - dx2;
+			if(gracz.x > 0)
+			gracz.x -= gracz.dx;
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			Pocisk pocisk = new Pocisk(x2, y2);
+			Pocisk pocisk = new Pocisk(gracz.x, gracz.y);
 			lista.add(pocisk);
 		}
 
-		if (e.getKeyCode() == KeyEvent.VK_F) {
-			b = true;
+		if ((e.getKeyCode() == KeyEvent.VK_F)&&(tarcza.ilosc > 0)) {
 			ArrayList<Pocisk> atakObszarowy = new ArrayList<Pocisk>();
 			for (int i = 0; i < 8; i++) {
-				atakObszarowy.add(new Pocisk(x2, y2));
+				atakObszarowy.add(new Pocisk(gracz.x, gracz.y));
+				tarcza.ilosc --;
 			}
 
 			atakObszarowyLista.add(atakObszarowy);
@@ -444,7 +679,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-
+/*
+ * funckja main zawierajaca dzialanie klasy
+ * @param args nie uzywane
+ */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Panel p = new Panel();
@@ -456,7 +694,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		frame.add(p);
 		p.start();
 		
-		if(p.isAlive == false)
+		if(p.gracz.alive == false)
 		{
 			p.stop();
 			JFrame komunikat = new JFrame();
@@ -466,7 +704,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			komunikat.setSize(150, 100);
 			//frame.pack();
 		}
-		
 		// frame.revalidate();
 	}
 
