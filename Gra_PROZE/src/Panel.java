@@ -101,12 +101,16 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		 przeszkody.add(new Przeszkoda(40, 500));
 		 przeszkody.add(new Przeszkoda(325, 500));
 		 przeszkody.add(new Przeszkoda(575, 500));
+		 
+		 //wybranie losowego punktu calkowitego x do generacji bonusa;
+		 
 		 tarcza.x = random.nextInt(750 - Parser.atakObszarowy.getWidth());
 
 		this.setVisible(true);
 		this.addKeyListener(this);
 		this.setFocusable(true);
-		this.requestFocusInWindow();		
+		this.requestFocusInWindow();	
+	    this.requestFocus();
 	}
 	/*
 	 * metoda startujaca timer
@@ -138,8 +142,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		// Rysowanie obcych
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (ig.grupa[i][j].widoczny == true)
+				if (ig.grupa[i][j] == null)
+					continue;
+				else
+				{
 					g.drawImage(grafikaObcego[klatkaAnimacji], ig.grupa[i][j].x, ig.grupa[i][j].y, this);
+				}
 			}
 		}
 
@@ -228,7 +236,11 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		// Sprawdzanie kolizji obiektu z grup z pociskiem
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
-				for (int k = 0; k < lista.size(); k++) {
+				for (int k = 0; k < lista.size(); k++)
+				if(ig.grupa[i][j] == null)
+					continue;
+				else
+				{
 					if (ig.grupa[i][j].x > lista.get(k).x + Parser.pocisk.getWidth()
 							|| ig.grupa[i][j].x + Parser.obcy.getWidth() < lista.get(k).x
 							|| ig.grupa[i][j].y > lista.get(k).y + Parser.pocisk.getHeight()
@@ -265,7 +277,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			for (int i = 0; i < 6; i++) {
 				for (int m = 0; m < atakObszarowyLista.size(); m++) {
 					for (int n = 0; n < atakObszarowyLista.get(m).size(); n++) {
-						if (atakObszarowyLista.get(m).get(n) == null) {
+						if ((atakObszarowyLista.get(m).get(n) == null) || (ig.grupa[i][j] == null)) {
 							continue;
 						}
 						if (ig.grupa[i][j].x > atakObszarowyLista.get(m).get(n).x + Parser.pocisk2.getWidth()
@@ -399,12 +411,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	{
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (ig.grupa[i][j].zycie == 0) {
-					ig.grupa[i][j].isVisible(false);
+				if(ig.grupa[i][j] == null)
+					continue;
+				else
+				{
+				if ((ig.grupa[i][j].zycie == 0)) {
+					/*ig.grupa[i][j].isVisible(false);
 					ig.grupa[i][j].x = 0;
 					ig.grupa[i][j].y = 0;
-					ig.grupa[i][j].zycie--;
+					ig.grupa[i][j].zycie--;*/
+					ig.grupa[i][j] = null;
 					gracz.punkty += 100;
+				}
 				}
 			}
 		}
@@ -566,7 +584,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		if (ig.atakObcych == 0) {
 			int rx = random.nextInt(6);
 			int ry = random.nextInt(3);
-			if (ig.grupa[rx][ry].widoczny) {
+			if (ig.grupa[rx][ry] != null) {
 				pociskiObcych.add(new Pocisk(ig.grupa[rx][ry].x, ig.grupa[rx][ry].y));
 			}
 		}
@@ -693,6 +711,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		frame.setVisible(true);
 		frame.add(p);
 		p.start();
+		p.setFocusable(true);
+	    p.requestFocus();
 		
 		if(p.gracz.alive == false)
 		{
