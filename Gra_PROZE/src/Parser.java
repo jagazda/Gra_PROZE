@@ -28,7 +28,7 @@ public class Parser extends Applet
 	/*
 	 * obiekt zawierajacy plik konfiguracyjny
 	 */
-	File f = new File("conf.properties");
+	File f = new File("C:\\SPB_Data\\git\\Gra_PROZE\\Gra_PROZE\\conf.properties");
 	/*
 	 * obiekt klasy properties
 	 */
