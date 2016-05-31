@@ -59,7 +59,7 @@ public class InvaderGroup
 				this.x = xx;
 				this.y = yy;
 
-				if(grupa[i][j].widoczny == true)
+				if(grupa[i][j] != null)
 				{
 					grupa[i][j].x = xx + i*60;
 					grupa[i][j].y = yy + j*60;
